@@ -7,6 +7,7 @@ from app import db
 from datetime import datetime
 from utils.mail import send_email
 from config import Config
+from flask import make_response
 from app.patients.models import Patient
 from app.doctors.models import Doctor
 from app.appointments.schemas import (
@@ -27,6 +28,15 @@ appointment_namespace.add_model("CancelAppointmentResponse", cancel_appointment_
 appointment_namespace.add_model("ErrorResponse", error_response_model)
 appointment_namespace.add_model("AppointmentsList", appointments_list_model)
 
+@appointment_namespace.route("")
+class AppointmentNamespace(Resource):
+    def options(self):
+        response = make_response()
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+        response.headers.add("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS")
+        return response
+    
 
 @appointment_namespace.route("/")
 class AppointmentsResource(Resource):

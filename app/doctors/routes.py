@@ -10,12 +10,20 @@ from app.doctors.schemas import DoctorAvailabilitySchema
 import uuid
 import logging
 import json
+from flask import make_response
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 doctor_namespace = Namespace('doctors', description='Doctors related operations')
-
+@doctor_namespace.route("")
+class DoctorNamespace(Resource):
+    def options(self):
+        response = make_response()
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+        response.headers.add("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS")
+        return response
 
 @doctor_namespace.route('/register')
 class DoctorRegister(UserRegister):
