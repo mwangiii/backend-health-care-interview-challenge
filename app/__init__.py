@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_caching import Cache
+from flask_cors import CORS  # Import CORS
 
 load_dotenv()
 
@@ -26,16 +27,17 @@ cache = Cache()
 def create_app():
     """
     Create and configure the Flask application.
-
     This function initializes the Flask app, configures extensions such as
     SQLAlchemy, Flask-Migrate, JWTManager, and Flask-Caching, and registers
     API namespaces for patients, doctors, and appointments.
-
     Returns:
         Flask: The configured Flask application instance.
     """
     app = Flask(__name__)
-
+    
+    # Enable CORS - Add this line
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    
     from config import Config
     app.config.from_object(Config)
 
