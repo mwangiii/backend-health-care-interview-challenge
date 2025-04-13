@@ -17,7 +17,7 @@ api = Api(
     title="Tiberbu Healthcare Interview Challenge",
     version="1.0",
     description="API for managing healthcare data",
-    doc="/api/docs",
+    doc="/api/v1/docs",
 )
 migrate = Migrate()
 jwt = JWTManager()
