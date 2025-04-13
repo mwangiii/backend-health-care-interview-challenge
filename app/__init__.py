@@ -6,19 +6,18 @@ from dotenv import load_dotenv
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_caching import Cache
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS
 
 load_dotenv()
 
 # Initialize components
 db = SQLAlchemy()
 api = Api(
-    prefix="/api",
+    prefix="/api/v1",
     title="Tiberbu Healthcare Interview Challenge",
     version="1.0",
     description="API for managing healthcare data",
     doc="/api/docs",
-    redirect_to=False,
 )
 migrate = Migrate()
 jwt = JWTManager()
@@ -36,14 +35,10 @@ def create_app():
     """
     app = Flask(__name__)
     
-    # Enable CORS
-    CORS(app, 
-     resources={r"/*": {"origins": "*"}}, 
-     supports_credentials=True,
-     allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     expose_headers=["Content-Type", "Authorization"]
-     )
+    # Enable CORS - Add this line
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app, resources={r"/api/v1/*": {"origins": [""]}})
+
     
     from config import Config
     app.config.from_object(Config)
